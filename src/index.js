@@ -6,18 +6,18 @@ import reportWebVitals from './reportWebVitals';
 
 
 const DATA = [
-  { id: "todo-0", name: "Se lever", completed: true },
-  { id: "todo-1", name: "Manger", completed: true },
-  { id: "todo-2", name: "Se préparer (douche + sac)", completed: false },
-  { id: "todo-3", name: "Prendre le bus (ligne n°3)", completed: false },
-  { id: "todo-4", name: "Faire ses devoirs", completed: false },
-  { id: "todo-5", name: "Faire une sieste", completed: true },
+  { id: "todo-0", nom: "Se lever", completed: true },
+  { id: "todo-1", nom: "Manger", completed: true },
+  { id: "todo-2", nom: "Se préparer (douche + sac)", completed: false },
+  { id: "todo-3", nom: "Prendre le bus (ligne n°3)", completed: false },
+  { id: "todo-4", nom: "Faire ses devoirs", completed: false },
+  { id: "todo-5", nom: "Faire une sieste", completed: true },
 ];
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App tasks={DATA} />
+    <App taches={DATA} />
   </React.StrictMode>,
 );
 

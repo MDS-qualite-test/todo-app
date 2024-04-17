@@ -9,71 +9,71 @@ function usePrevious(value) {
 }
   
 export default function Todo(props) {
-    const [isEditing, setEditing] = useState(false);
-    const [newName, setNewName] = useState("");
+    const [estModif, setModif] = useState(false);
+    const [nouvNom, setNouvNom] = useState("");
     const editFieldRef = useRef(null);
     const editButtonRef = useRef(null);
 
-    const wasEditing = usePrevious(isEditing);
+    const aEteModif = usePrevious(estModif);
 
     function handleChange(e) {
-        setNewName(e.target.value);
+        setNouvNom(e.target.value);
     }
     
     function handleSubmit(e) {
         e.preventDefault();
-        props.editTask(props.id, newName);
-        setNewName("");
-        setEditing(false);
+        props.modifTache(props.id, nouvNom);
+        setNouvNom("");
+        setModif(false);
     }
       
-    const editingTemplate = (
+    const modifTemplate = (
         <form className="stack-small" onSubmit={handleSubmit}>
             <div className="form-group">
                 <label className="todo-label" htmlFor={props.id}>
-                    Renommer : {props.name}
+                    <b>Renommer la tâche :</b> {props.nom}
                 </label>
-                <input id={props.id} className="todo-text" type="text" value={newName} onChange={handleChange} ref={editFieldRef} />
+                <input id={props.id} className="todo-text" type="text" value={nouvNom} onChange={handleChange} ref={editFieldRef} />
             </div>
             <div className="btn-group">
-                <button type="button" className="btn todo-cancel" onClick={() => setEditing(false)}>
+                <button type="button" className="btn todo-cancel" onClick={() => setModif(false)}>
                     Annuler
-                    <span className="visually-hidden">Renommer : {props.name}</span>
+                    <span className="visually-hidden">Renommer la tâche : {props.nom}</span>
                 </button>
                 <button type="submit" className="btn btn__primary todo-edit">
                     Sauvegarder
-                    <span className="visually-hidden">Renommer : {props.name}</span>
+                    <span className="visually-hidden">Renommer la tâche : {props.nom}</span>
                 </button>
             </div>
         </form>
     );
 
-    const viewTemplate = (
+    const voirTemplate = (
         <div className="stack-small">
             <div className="c-cb">
-                <input id={props.id} type="checkbox" defaultChecked={props.completed} onChange={() => props.toggleTaskCompleted(props.id)} />
+                <input id={props.id} type="checkbox" defaultChecked={props.completed} onChange={() => props.majTacheCompletee(props.id)} />
                 <label className="todo-label" htmlFor={props.id}>
-                    {props.name}
+                    {props.nom}
                 </label>
             </div>
             <div className="btn-group">
-                <button type="button" className="btn" onClick={() => setEditing(true)} ref={editButtonRef}>
-                    Modifier <span className="visually-hidden">{props.name}</span>
+                <button type="button" className="btn" onClick={() => setModif(true)} ref={editButtonRef}>
+                    Modifier <span className="visually-hidden">{props.nom}</span>
                 </button>
-                <button type="button" className="btn btn__danger" onClick={() => props.deleteTask(props.id)}>
-                    Supprimer <span className="visually-hidden">{props.name}</span>
+                <button type="button" className="btn btn__danger" onClick={() => props.suppTache(props.id)}>
+                    Supprimer <span className="visually-hidden">{props.nom}</span>
                 </button>
             </div>
         </div>
     );
 
     useEffect(() => {
-        if (!wasEditing && isEditing) {
+        if (!aEteModif && estModif) {
             editFieldRef.current.focus();
-        } else if (wasEditing && !isEditing) {
+        } else if (aEteModif && !estModif) {
             editButtonRef.current.focus();
         }
-    }, [wasEditing, isEditing]);      
+    }, [aEteModif, estModif]);      
     
-    return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
+    return <li className="todo">{estModif ? modifTemplate : voirTemplate}</li>;
 }

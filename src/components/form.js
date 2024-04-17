@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
-function Form(props) {
-    const [name, setName] = useState("");
+function Formulaire(props) {
+    const [nom, setNom] = useState("");
 
     function handleChange(e) {
-        setName(e.target.value);
+        setNom(e.target.value);
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.addTask(name);
-        setName("");
+        props.ajtTache(nom);
+        setNom("");
     }
 
     return (
@@ -18,10 +18,10 @@ function Form(props) {
             <h2 className="label-wrapper">
                 <label htmlFor="new-todo-input" className="label__lg">Liste des tâches à réaliser.</label>
             </h2>
-            <input type="text" id="new-todo-input" className="input input__lg" name="text" autoComplete="off" value={name} onChange={handleChange} />
+            <input type="text" id="new-todo-input" className="input input__lg" nom="text" autoComplete="off" value={nom} onChange={handleChange} />
             <button type="submit" className="btn btn__primary btn__lg">Ajouter</button>
         </form>
     );
 }
 
-export default Form;
+export default Formulaire;
