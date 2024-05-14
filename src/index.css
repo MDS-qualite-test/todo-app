@@ -36,6 +36,12 @@ button, input {
   overflow: visible;
 }
 
+::placeholder {
+  text-align: center;
+  color: #D5D8DC;
+  font-size: 24px;
+}
+
 body {
   width: 100%;
   max-width: 68rem;

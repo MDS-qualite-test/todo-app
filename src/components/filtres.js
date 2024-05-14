@@ -6,10 +6,9 @@ function Filtres(props) {
         type="button"
         className="btn toggle-btn"
         aria-pressed={props.isPressed}
-        onClick={() => props.setFilter(props.nom)}>
-        <span className="visually-hidden">Show </span>
+        onClick={() => props.setFilter(props.nom)}
+        title="Filtrer les tâches">
         <span>{props.nom}</span>
-        <span className="visually-hidden"> taches</span>
       </button>
     );
   }

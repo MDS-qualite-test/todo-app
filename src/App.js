@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { nanoid } from "nanoid";
 
 import Formulaire from "./components/form";
@@ -34,7 +34,7 @@ function App(props) {
   ));
   
   const motsTaches =
-    listeTaches.length !== 1 ? "tâches restantes" : "tâche restante";
+    listeTaches.length !== 1 ? "tâches restantes." : "tâche restante.";
   const texteHeader = `${listeTaches.length} ${motsTaches}`;
 
   function ajtTache(nom) {
@@ -71,7 +71,7 @@ function App(props) {
 
   return (
     <div className="todoapp stack-large">
-      <h1>ToDo List</h1>
+      <h1>&#128507;&bull; FujiTask</h1>
       <Formulaire ajtTache={ajtTache} />
       <div className="filters btn-group stack-exception">
         {filtrerListe}
@@ -80,7 +80,6 @@ function App(props) {
         {texteHeader}
       </h2>
       <ul
-        role="list"
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading">
         {listeTaches}

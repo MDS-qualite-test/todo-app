@@ -15,11 +15,9 @@ function Formulaire(props) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2 className="label-wrapper">
-                <label htmlFor="new-todo-input" className="label__lg">Liste des tâches à réaliser.</label>
-            </h2>
-            <input type="text" id="new-todo-input" className="input input__lg" nom="text" autoComplete="off" value={nom} onChange={handleChange} />
-            <button type="submit" className="btn btn__primary btn__lg">Ajouter</button>
+            <input type="text" id="new-todo-input" className="input input__lg" nom="text" autoComplete="off" value={nom} 
+            onChange={handleChange} placeholder="Renseigner une tâche à réaliser..."/>
+            <button type="submit" className="btn btn__primary btn__lg" title="Ajouter la tâche">Ajouter</button>
         </form>
     );
 }
