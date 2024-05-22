@@ -6,8 +6,8 @@ import reportWebVitals from './reportWebVitals';
 
 
 const DATA = [
-  { id: "todo-0", nom: "Se lever", completed: true },
-  { id: "todo-1", nom: "Manger", completed: true },
+  { id: "todo-0", nom: "Contacter Mr. THORIN par mail", completed: true },
+  { id: "todo-1", nom: "Préparer l'entretien avec ARTUS", completed: true },
   { id: "todo-2", nom: "Se préparer (douche + sac)", completed: false },
   { id: "todo-3", nom: "Prendre le bus (ligne n°3)", completed: false },
   { id: "todo-4", nom: "Faire ses devoirs", completed: false },

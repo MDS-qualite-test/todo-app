@@ -53,15 +53,18 @@ export default function Todo(props) {
             <div className="c-cb">
                 <input id={props.id} type="checkbox" defaultChecked={props.completed} onChange={() => props.majTacheCompletee(props.id)} />
                 <label className="todo-label" htmlFor={props.id}>
-                    &#10145;&#65039; {props.nom}
+                    <li><b>&nbsp;{props.nom}</b></li>
+                    <li>&#128203; Lorem ipsum dolor sit amet, consectetur adipiscing [...]</li>
+                    <li>&#128204; 2 rue de la Martinellerie &bull; 49800 Trélazé</li>
+                    <li>&#128197; Lun. 27/05/2024 &bull; 10h</li>
                 </label>
             </div>
             <div className="btn-group">
                 <button type="button" className="btn" onClick={() => setModif(true)} ref={editButtonRef}>
-                    Modifier <span className="visually-hidden">{props.nom}</span>
+                    Modifier<span className="visually-hidden">{props.nom}</span>
                 </button>
                 <button type="button" className="btn btn__danger" onClick={() => props.suppTache(props.id)}>
-                    Supprimer <span className="visually-hidden">{props.nom}</span>
+                    Supprimer<span className="visually-hidden">{props.nom}</span>
                 </button>
             </div>
         </div>

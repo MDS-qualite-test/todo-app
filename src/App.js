@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 import Formulaire from "./components/form";
 import Filtres from "./components/filtres";
 import Todo from "./components/todo";
+import Footer from "./components/footer";
 
 const FILTRE_MAP = {
   "Toutes": () => true,
@@ -72,10 +73,12 @@ function App(props) {
   return (
     <div className="todoapp stack-large">
       <h1>&#128507;&bull; FujiTask</h1>
+      
       <Formulaire ajtTache={ajtTache} />
       <div className="filters btn-group stack-exception">
         {filtrerListe}
       </div>
+      <div class="sepp"/>
       <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
         {texteHeader}
       </h2>
@@ -84,6 +87,8 @@ function App(props) {
         aria-labelledby="list-heading">
         {listeTaches}
       </ul>
+      <div class="sepp"/>
+      <Footer />
     </div>
   );
 }
