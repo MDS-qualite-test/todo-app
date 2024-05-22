@@ -402,3 +402,12 @@ button[type="submit"] {
   cursor: pointer;
   border-radius: 0.3rem;
 }
+
+.resume {
+  font-size: 1.6rem;
+  margin: -2rem 0 4rem;
+}
+
+.resume p {
+  margin: -2.4rem 2.6rem 1rem ;
+}

@@ -49,8 +49,21 @@ function Formulaire(props) {
         setStep(0);
     }
 
+    function handleKeyPress(e) {
+        if (e.key === "Enter" || e.key === "Tab") {
+            e.preventDefault();
+            setStep(step + 1);
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setStep(Math.max(step - 1, 0));
+        } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setStep(Math.min(step + 1, 5));
+        }
+    }
+
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} onKeyDown={handleKeyPress}>
             {step === 0 && (
                 <div>
                     <button type="submit" title="Ajouter une nouvelle tâche" onClick={() => setStep(1)}>
@@ -74,8 +87,7 @@ function Formulaire(props) {
             )}
             {step === 2 && (
                 <div>
-                    <input
-                        type="text"
+                    <textarea
                         id="new-todo-input"
                         className="input input__lg"
                         name="description"
@@ -83,6 +95,12 @@ function Formulaire(props) {
                         value={description}
                         onChange={(e) => handleChange(e, setDescription)}
                         placeholder="&#128203; &bull; Description de la tâche"
+                        maxLength={420}
+                        rows={1}
+                        style={{
+                            resize: 'vertical',
+                            overflowY: description.split('\n').length > 1 ? 'scroll' : 'hidden',
+                        }}
                     />
                 </div>
             )}
@@ -128,7 +146,7 @@ function Formulaire(props) {
             )}
             {step === 5 && (
                 <div>
-                    <button type="submit" title="Ajouter la tâche">&#128190; Ajouter "{nom}" à la liste ?</button>
+                    <button type="submit" title="Ajouter la tâche">&#128190; Ajouter "<b>{nom}</b>" à la liste ?</button>
                 </div>
             )}
             <div className="dots-container">
@@ -144,9 +162,12 @@ function Formulaire(props) {
             </div>
             {step === 5 && (
                 <div className="resume">
-                    <li>&#128203; {description}</li>
-                    <li>&#128204; {localisation}</li>
-                    <li>&#128197; {dateHeure}</li>
+                    <h4>&#128203; Description</h4>
+                    <p>{description}</p>
+                    <h4>&#128204; Localisation </h4>
+                    <p>{localisation}</p>
+                    <h4>&#128197; Date/Heure </h4>
+                    <p>{dateHeure}</p>
                 </div>
             )}
         </form>
