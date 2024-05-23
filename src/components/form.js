@@ -149,7 +149,7 @@ function Formulaire(props) {
             )}
             {(step >= 1 && step <= 5) && (
                 <div className="dots-container">
-                    {[0, 1, 2, 3, 4].map((dot, index) => (
+                    {[0, 1, 2, 3, 4, 5].map((dot, index) => (
                         <span key={index} className={`dot ${step === index ? "active" : ""}`} onClick={() => setStep(index)}>
                             &#9679;
                         </span>
