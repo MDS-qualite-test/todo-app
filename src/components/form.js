@@ -52,7 +52,9 @@ function Formulaire(props) {
     function handleKeyPress(e) {
         if (e.key === "Tab") {
             e.preventDefault();
-            setStep(step + 1);
+            if (step < 5 && nom !== "") {
+                setStep(step + 1);
+            }
         }
     }
 
@@ -140,19 +142,21 @@ function Formulaire(props) {
                     />
                 </div>
             )}
-            {step === 5 && (
+            {step === 5 && nom !== "" && (
                 <div>
                     <button type="submit" title="Ajouter la tâche à la liste ?">&#128190; Ajouter "<b>{nom}</b>" à la liste ?</button>
                 </div>
             )}
-            <div className="dots-container">
-                {[0, 1, 2, 3, 4, 5].map((dot, index) => (
-                    <span key={index} className={`dot ${step === index ? "active" : ""}`} onClick={() => setStep(index)}>
-                        &#9679;
-                    </span>
-                ))}
-            </div>
-            {step === 5 && (
+            {(step >= 1 && step <= 5) && (
+                <div className="dots-container">
+                    {[0, 1, 2, 3, 4].map((dot, index) => (
+                        <span key={index} className={`dot ${step === index ? "active" : ""}`} onClick={() => setStep(index)}>
+                            &#9679;
+                        </span>
+                    ))}
+                </div>
+            )}
+            {step === 5 && nom !== "" && (
                 <div className="resume">
                     <h4>&#128203; Description</h4>
                     <p>{description}</p>
