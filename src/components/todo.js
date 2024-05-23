@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import config from '../config.json';
 
 function usePrevious(value) {
     const ref = useRef();
@@ -17,6 +18,9 @@ export default function Todo(props) {
     const [selectedOption, setSelectedOption] = useState("Modifier le nom de la tâche");
     const editFieldRef = useRef(null);
     const editButtonRef = useRef(null);
+    const [suggestions, setSuggestions] = useState([]);
+
+    const MAPBOX_API_KEY = config.mapboxApiKey;
 
     const aEteModif = usePrevious(estModif);
     
@@ -30,6 +34,28 @@ export default function Todo(props) {
 
     function handleChangeLoca(e) {
         setNouvLoca(e.target.value);
+        fetchLocationSuggestions(e.target.value);
+    }
+
+    async function fetchLocationSuggestions(value) {
+        if (value.length > 2) {
+            try {
+                const response = await fetch(
+                    `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(value)}.json?access_token=${MAPBOX_API_KEY}&autocomplete=true`
+                );
+                const data = await response.json();
+                setSuggestions(data.features);
+            } catch (error) {
+                console.error("Error fetching location suggestions:", error);
+            }
+        } else {
+            setSuggestions([]);
+        }
+    }
+
+    function handleSuggestionClick(suggestion) {
+        setNouvLoca(suggestion.place_name);
+        setSuggestions([]);
     }
 
     function handleChangeDh(e) {
@@ -91,6 +117,18 @@ export default function Todo(props) {
                             ref={editFieldRef} 
                             placeholder="Nouvelle localisation"
                         />
+                        {suggestions.length > 0 && (
+                            <ul className="suggestions-list">
+                                {suggestions.map((suggestion, index) => (
+                                    <li
+                                        key={index}
+                                        onClick={() => handleSuggestionClick(suggestion)}
+                                    >
+                                        {suggestion.place_name}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                 )}
                 {selectedOption === "Modifier la date/l'heure" && (

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import config from '../config.json';
 
 function Formulaire(props) {
     const [nom, setNom] = useState("");
@@ -8,7 +9,7 @@ function Formulaire(props) {
     const [step, setStep] = useState(0);
     const [suggestions, setSuggestions] = useState([]);
 
-    const MAPBOX_API_KEY = "pk.eyJ1IjoiYXNoaWtvIiwiYSI6ImNsd2hzdDgxODAzMmEya3JsdjVtbmdibzcifQ.XZiclmMszAsSnU5rhlYTeg";
+    const MAPBOX_API_KEY = config.mapboxApiKey;
 
     function handleChange(e, setState) {
         setState(e.target.value);
@@ -146,11 +147,7 @@ function Formulaire(props) {
             )}
             <div className="dots-container">
                 {[0, 1, 2, 3, 4, 5].map((dot, index) => (
-                    <span
-                        key={index}
-                        className={`dot ${step === index ? "active" : ""}`}
-                        onClick={() => setStep(index)}
-                    >
+                    <span key={index} className={`dot ${step === index ? "active" : ""}`} onClick={() => setStep(index)}>
                         &#9679;
                     </span>
                 ))}
