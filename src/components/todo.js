@@ -76,10 +76,10 @@ export default function Todo(props) {
         <form className="stack-small" onSubmit={handleSubmit}>
             <div className="form-group">
                 <select name="modifs" id="modif-select" onChange={handleSelectChange} value={selectedOption}>
-                    <option value="Modifier le nom de la tâche">Modifier le nom de la tâche</option>
-                    <option value="Modifier la description">Modifier la description</option>
-                    <option value="Modifier la localisation"> Modifier la localisation</option>
-                    <option value="Modifier la date/l'heure">Modifier la date/l'heure</option>
+                    <option value="Modifier le nom de la tâche">&#9999;&#65039; &#x7C; Modifier le nom de la tâche</option>
+                    <option value="Modifier la description">&#128203; &#x7C; Modifier la description de la tâche</option>
+                    <option value="Modifier la localisation">&#128204; &#x7C; Modifier la localisation de la tâche</option>
+                    <option value="Modifier la date/l'heure">&#128197; &#x7C; Modifier la date/l'heure de la tâche</option>
                 </select>
                 {selectedOption === "Modifier le nom de la tâche" && (
                     <div>
@@ -96,13 +96,18 @@ export default function Todo(props) {
                 )}
                 {selectedOption === "Modifier la description" && (
                     <div>
-                        <input 
+                        <textarea
                             id={props.id} 
                             className="todo-text" 
-                            type="text" value={nouvDesc} 
+                            value={nouvDesc} 
                             onChange={handleChangeDesc} 
                             ref={editFieldRef}
                             placeholder="Nouvelle description"
+                            maxLength={420}
+                            rows={1}
+                            style={{
+                                resize: 'vertical',
+                            }}
                         />
                     </div>
                 )}
@@ -146,6 +151,7 @@ export default function Todo(props) {
                     </div>
                 )}
             </div>
+            <div className="sepp" />
             <div className="btn-group">
                 <button type="button" className="btn todo-cancel" onClick={() => setModif(false)}>&#128281; Annuler</button>
                 <button type="submit" className="btn btn__primary todo-edit">&#128190; Sauvegarder</button>
@@ -164,6 +170,7 @@ export default function Todo(props) {
                     <li>&#128197; {props.dateHeure}</li>
                 </label>
             </div>
+            <div className="sepp" />
             <div className="btn-group">
                 <button type="button" className="btn" onClick={() => setModif(true)} ref={editButtonRef}>&#128221; Modifier</button>
                 <button type="button" className="btn btn__danger" onClick={handleDeleteClick}>&#128465;&#65039; Supprimer</button>
