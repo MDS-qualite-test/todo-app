@@ -6,12 +6,33 @@ import reportWebVitals from './reportWebVitals';
 
 
 const DATA = [
-  { id: "todo-0", nom: "Tâche 1", description: "Lorem Ipsum Dolor Sit Amet.", localisation: "xxx", dateHeure:"gareafe", completed: true },
-  { id: "todo-1", nom: "Tâche 2", description: "Lorem Ipsum Dolor Sit Amet.", localisation: "xxxx", dateHeure:"trhefd", completed: true },
-  { id: "todo-2", nom: "Tâche 3", description: "Lorem Ipsum Dolor Sit Amet.", localisation: "xxxxx", dateHeure:"czrgx", completed: false },
-  { id: "todo-3", nom: "Tâche 4", description: "Lorem Ipsum Dolor Sit Amet.", localisation: "xxxxxx", dateHeure:"zrhcsgcser", completed: false },
-  { id: "todo-4", nom: "Tâche 5", description: "Lorem Ipsum Dolor Sit Amet.", localisation: "xxxxxxx", dateHeure:"czrcfse", completed: false },
-  { id: "todo-5", nom: "Tâche 6", description: "Lorem Ipsum Dolor Sit Amet.", localisation: "xxxxxxxx", dateHeure:"zrffxz", completed: true },
+  { id: "todo-0", 
+    nom: "Préparer la réunion avec les C.E. et les T.L.", 
+    description: "Développement, plan de test et déploiement du MVP.", 
+    localisation: "37 Boulevard De Cadréan, 44550 Montoir-de-Bretagne", 
+    dateHeure:"28/05/2024, 12:30", 
+    completed: true },
+
+  { id: "todo-1", 
+    nom: "Mettre en place la documentation du Projet 'Tracking'", 
+    description: "Documentation Users - Devs - CE - TL.", 
+    localisation: "37 Boulevard De Cadréan, 44550 Montoir-de-Bretagne", 
+    dateHeure:"28/05/2024, 14:45", 
+    completed: false },
+
+  { id: "todo-2", 
+    nom: "Correction du bug d'affichage de la liste des Activités", 
+    description: "La liste n'apparaît pas lors du chargement du UserForm.", 
+    localisation: "2 rue de la Briantaie, 49440 Candé", 
+    dateHeure:"22/05/2024, 09:30", 
+    completed: true },
+
+  { id: "todo-3", 
+    nom: "Créer une application de Gestion des Temps d'Activité", 
+    description: "Suivre le cahier des charges transmit par mail.", 
+    localisation: "Trignac, Loire-Atlantique, France", 
+    dateHeure:"30/06/2024, 00:00", 
+    completed: false },
 ];
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

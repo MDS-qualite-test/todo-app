@@ -40,8 +40,7 @@ function Formulaire(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        const tache = { nom, description, localisation, dateHeure };
-        props.ajtTache(tache);
+        props.ajtTache(nom, description, localisation, dateHeure);
         setNom("");
         setDescription("");
         setLocalisation("");
@@ -50,15 +49,9 @@ function Formulaire(props) {
     }
 
     function handleKeyPress(e) {
-        if (e.key === "Enter" || e.key === "Tab") {
+        if (e.key === "Tab") {
             e.preventDefault();
             setStep(step + 1);
-        } else if (e.key === "ArrowUp") {
-            e.preventDefault();
-            setStep(Math.max(step - 1, 0));
-        } else if (e.key === "ArrowDown") {
-            e.preventDefault();
-            setStep(Math.min(step + 1, 5));
         }
     }
 
