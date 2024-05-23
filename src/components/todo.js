@@ -11,6 +11,9 @@ function usePrevious(value) {
 export default function Todo(props) {
     const [estModif, setModif] = useState(false);
     const [nouvNom, setNouvNom] = useState("");
+    const [nouvDesc, setNouvDesc] = useState("");
+    const [nouvLoca, setNouvLoca] = useState("");
+    const [nouvDh, setNouvDh] = useState("");
     const editFieldRef = useRef(null);
     const editButtonRef = useRef(null);
 
@@ -18,12 +21,18 @@ export default function Todo(props) {
 
     function handleChange(e) {
         setNouvNom(e.target.value);
+        setNouvDesc(e.target.value);
+        setNouvLoca(e.target.value);
+        setNouvDh(e.target.value);
     }
     
     function handleSubmit(e) {
         e.preventDefault();
         props.modifTache(props.id, nouvNom);
         setNouvNom("");
+        setNouvDesc("");
+        setNouvLoca("");
+        setNouvDh("");
         setModif(false);
     }
       
@@ -34,16 +43,22 @@ export default function Todo(props) {
                     <b>Renommer la tâche :</b> {props.nom}
                 </label>
                 <input id={props.id} className="todo-text" type="text" value={nouvNom} onChange={handleChange} ref={editFieldRef} />
+                <label className="todo-label" htmlFor={props.id}>
+                    <b>Modifier la description :</b> {props.description}
+                </label>
+                <input id={props.id} className="todo-text" type="text" value={nouvDesc} onChange={handleChange} ref={editFieldRef} />
+                <label className="todo-label" htmlFor={props.id}>
+                    <b>Modifier la localisation :</b> {props.localisation}
+                </label>
+                <input id={props.id} className="todo-text" type="text" value={nouvLoca} onChange={handleChange} ref={editFieldRef} />
+                <label className="todo-label" htmlFor={props.id}>
+                    <b>Modifier la date/heure :</b> {props.dateHeure}
+                </label>
+                <input id={props.id} className="todo-text" type="text" value={nouvDh} onChange={handleChange} ref={editFieldRef} />
             </div>
             <div className="btn-group">
-                <button type="button" className="btn todo-cancel" onClick={() => setModif(false)}>
-                    Annuler
-                    <span className="visually-hidden">Renommer la tâche : {props.nom}</span>
-                </button>
-                <button type="submit" className="btn btn__primary todo-edit">
-                    Sauvegarder
-                    <span className="visually-hidden">Renommer la tâche : {props.nom}</span>
-                </button>
+                <button type="button" className="btn todo-cancel" onClick={() => setModif(false)}>Annuler</button>
+                <button type="submit" className="btn btn__primary todo-edit">Sauvegarder</button>
             </div>
         </form>
     );
@@ -54,18 +69,14 @@ export default function Todo(props) {
                 <input id={props.id} type="checkbox" defaultChecked={props.completed} onChange={() => props.majTacheCompletee(props.id)} />
                 <label className="todo-label" htmlFor={props.id}>
                     <li><b>&nbsp;{props.nom}</b></li>
-                    <li>&#128203; Lorem ipsum dolor sit amet, consectetur adipiscing [...]</li>
-                    <li>&#128204; 2 rue de la Martinellerie, 49800 Trélazé, France</li>
-                    <li>&#128197; 27/05/2024, 10:30</li>
+                    <li>&#128203; {props.description}</li>
+                    <li>&#128204; {props.localisation}</li>
+                    <li>&#128197; {props.dateHeure}</li>
                 </label>
             </div>
             <div className="btn-group">
-                <button type="button" className="btn" onClick={() => setModif(true)} ref={editButtonRef}>
-                    Modifier<span className="visually-hidden">{props.nom}</span>
-                </button>
-                <button type="button" className="btn btn__danger" onClick={() => props.suppTache(props.id)}>
-                    Supprimer<span className="visually-hidden">{props.nom}</span>
-                </button>
+                <button type="button" className="btn" onClick={() => setModif(true)} ref={editButtonRef}>Modifier</button>
+                <button type="button" className="btn btn__danger" onClick={() => props.suppTache(props.id)}>Supprimer</button>
             </div>
         </div>
     );
