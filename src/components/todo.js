@@ -55,8 +55,8 @@ export default function Todo(props) {
                 <label className="todo-label" htmlFor={props.id}>
                     <li><b>&nbsp;{props.nom}</b></li>
                     <li>&#128203; Lorem ipsum dolor sit amet, consectetur adipiscing [...]</li>
-                    <li>&#128204; 2 rue de la Martinellerie &bull; 49800 Trélazé</li>
-                    <li>&#128197; Lun. 27/05/2024 &bull; 10h</li>
+                    <li>&#128204; 2 rue de la Martinellerie, 49800 Trélazé, France</li>
+                    <li>&#128197; 27/05/2024, 10:30</li>
                 </label>
             </div>
             <div className="btn-group">

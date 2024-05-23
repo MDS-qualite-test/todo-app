@@ -141,12 +141,14 @@ function Formulaire(props) {
                         value={dateHeure}
                         onChange={(e) => handleChange(e, setDateHeure)}
                         placeholder="&#128197;&middot;&#128339; &bull; Date & Heure"
+                        pattern="\d{2}/\d{2}/\d{4}, \d{2}:\d{2}"
+                        title="Entrez une date au format jj/mm/aaaa, hh:mm"
                     />
                 </div>
             )}
             {step === 5 && (
                 <div>
-                    <button type="submit" title="Ajouter la tâche">&#128190; Ajouter "<b>{nom}</b>" à la liste ?</button>
+                    <button type="submit" title="Ajouter la tâche à la liste ?">&#128190; Ajouter "<b>{nom}</b>" à la liste ?</button>
                 </div>
             )}
             <div className="dots-container">
