@@ -8,7 +8,7 @@ function Formulaire(props) {
     const [step, setStep] = useState(0);
     const [suggestions, setSuggestions] = useState([]);
 
-    const MAPBOX_API_KEY = "pk.eyJ1IjoiYXNoaWtvIiwiYSI6ImNsd2hzdDgxODAzMmEya3JsdjVtbmdibzcifQ.XZiclmMszAsSnU5rhlYTeg"; // Remplacez par votre clé API Mapbox
+    const MAPBOX_API_KEY = "pk.eyJ1IjoiYXNoaWtvIiwiYSI6ImNsd2hzdDgxODAzMmEya3JsdjVtbmdibzcifQ.XZiclmMszAsSnU5rhlYTeg";
 
     function handleChange(e, setState) {
         setState(e.target.value);
