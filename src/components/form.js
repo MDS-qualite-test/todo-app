@@ -147,6 +147,11 @@ function Formulaire(props) {
                     <button type="submit" title="Ajouter la tâche à la liste ?">&#128190; Ajouter "<b>{nom}</b>" à la liste ?</button>
                 </div>
             )}
+            {step === 5 && nom === "" && (
+                <div>
+                    <button type="submit" disabled><b>&#129302; // ERROR 404 &bull; Impossible d'ajouter la tâche. // &#129302;</b></button>
+                </div>
+            )}
             {(step >= 1 && step <= 5) && (
                 <div className="dots-container">
                     {[0, 1, 2, 3, 4, 5].map((dot, index) => (
