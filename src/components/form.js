@@ -41,6 +41,10 @@ function Formulaire(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        if (nom.trim() === "" || description.trim() === "" || localisation.trim() === "" || dateHeure.trim() === "") {
+            alert("Veuillez remplir tous les champs.");
+            return;
+        }
         props.ajtTache(nom, description, localisation, dateHeure);
         setNom("");
         setDescription("");
@@ -149,7 +153,7 @@ function Formulaire(props) {
             )}
             {step === 5 && nom === "" && (
                 <div>
-                    <button type="submit" disabled><b>&#129302; // ERROR 404 &bull; Impossible d'ajouter la tâche. // &#129302;</b></button>
+                    <button type="submit" title="Tâche KO" disabled><b>&#129302; Impossible d'ajouter une tâche sans nom ! &#129302;</b></button>
                 </div>
             )}
             {(step >= 1 && step <= 5) && (

@@ -454,3 +454,8 @@ button[title="Ajouter une nouvelle tâche"] {
 button[title="Ajouter une nouvelle tâche"]:hover {
   border: 0.2rem solid #c2c2c2;
 }
+
+button[title="Tâche KO"] {
+  border:#bd2130 0.2rem solid;
+  background-color: #ca3c3c;
+}
