@@ -112,7 +112,7 @@ function App(props: AppProps) {
 
   return (
     <div className="todoapp stack-large">
-      <h1>&#128507;&bull; FujiTask</h1>
+      <h1>&#128507;&nbsp;FujiTask</h1>
       <div className="sepp" />
       <TodoForm ajtTache={ajtTache} />
       <div className="filters btn-group stack-exception">
