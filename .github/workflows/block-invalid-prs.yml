@@ -14,7 +14,7 @@ jobs:
         run: |
           echo "Checking PR from ${{ github.head_ref }} to ${{ github.base_ref }}"
           if [[ "${{ github.base_ref }}" == "develop" ]]; then
-            [[ "${{ github.head_ref }}" =~ ^(front|back|devops)$ ]] || {
+            [[ "${{ github.head_ref }}" =~ ^(feature/frontend|feature/backend|feature/devops)$ ]] || {
               echo "❌ Seules les branches front, back, devops peuvent faire des PR vers develop.";
               exit 1;
             }
