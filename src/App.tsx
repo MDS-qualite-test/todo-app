@@ -23,11 +23,11 @@ type Task = {
 };
 
 interface AppProps {
-  taches: Task[];
+  taches?: Task[];
 }
 
 function App(props: AppProps) {
-  const [taches, setTasks] = useState<Task[]>(props.taches);
+  const [taches, setTasks] = useState<Task[]>(props.taches ?? []);
   const [filtre, setFilter] = useState<string>("Toutes");
   const listeTaches = taches
     .filter(FILTRE_MAP[filtre])
