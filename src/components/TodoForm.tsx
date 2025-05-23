@@ -1,21 +1,30 @@
 import React, { useState } from "react";
 import config from '../config.json';
 
-function Formulaire(props) {
+interface Suggestion {
+  place_name: string;
+  [key: string]: any;
+}
+
+interface TodoFormProps {
+  ajtTache: (nom: string, description: string, localisation: string, dateHeure: string) => void;
+}
+
+function TodoForm(props: TodoFormProps) {
     const [nom, setNom] = useState("");
     const [description, setDescription] = useState("");
     const [localisation, setLocalisation] = useState("");
     const [dateHeure, setDateHeure] = useState("");
     const [step, setStep] = useState(0);
-    const [suggestions, setSuggestions] = useState([]);
+    const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
 
     const MAPBOX_API_KEY = config.mapboxApiKey;
 
-    function handleChange(e, setState) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, setState: (value: string) => void) {
         setState(e.target.value);
     }
 
-    async function handleLocalisationChange(e) {
+    async function handleLocalisationChange(e: React.ChangeEvent<HTMLInputElement>) {
         const value = e.target.value;
         setLocalisation(value);
 
@@ -34,12 +43,12 @@ function Formulaire(props) {
         }
     }
 
-    function handleSuggestionClick(suggestion) {
+    function handleSuggestionClick(suggestion: Suggestion) {
         setLocalisation(suggestion.place_name);
         setSuggestions([]);
     }
 
-    function handleSubmit(e) {
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (nom.trim() === "" || description.trim() === "" || localisation.trim() === "" || dateHeure.trim() === "") {
             alert("Veuillez remplir tous les champs.");
@@ -53,7 +62,7 @@ function Formulaire(props) {
         setStep(0);
     }
 
-    function handleKeyPress(e) {
+    function handleKeyPress(e: React.KeyboardEvent<HTMLFormElement>) {
         if (e.key === "Tab") {
             e.preventDefault();
             if (step < 5 && nom !== "") {
@@ -63,7 +72,7 @@ function Formulaire(props) {
     }
 
     return (
-        <form onSubmit={handleSubmit} onKeyDown={handleKeyPress}>
+        <form data-testid="todo-form" onSubmit={handleSubmit} onKeyDown={handleKeyPress}>
             {step === 0 && (
                 <div>
                     <button type="submit" title="Ajouter une nouvelle tâche" onClick={() => setStep(1)}>
@@ -179,4 +188,4 @@ function Formulaire(props) {
     );
 }
 
-export default Formulaire;
+export default TodoForm;

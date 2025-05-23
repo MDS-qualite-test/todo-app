@@ -1,25 +1,38 @@
 import { useState, useRef } from "react";
 import { nanoid } from "nanoid";
 
-import Formulaire from "./components/form";
-import Filtres from "./components/filtres";
-import Todo from "./components/todo";
-import Footer from "./components/footer";
+import TodoForm from "./components/TodoForm";
+import TodoFilters from "./components/TodoFilters";
+import TodoItem from "./components/TodoItem";
+import Footer from "./components/Footer";
 
-const FILTRE_MAP = {
+const FILTRE_MAP: { [key: string]: (task: Task) => boolean } = {
   "Toutes": () => true,
   "En cours": (task) => !task.completed,
   "Realisées": (task) => task.completed,
 };
 const FILTRE_NOMS = Object.keys(FILTRE_MAP);
 
-function App(props) {
-  const [taches, setTasks] = useState(props.taches);
-  const [filtre, setFilter] = useState("Toutes");
+type Task = {
+  id: string;
+  nom: string;
+  description: string;
+  localisation: string;
+  dateHeure: string;
+  completed: boolean;
+};
+
+interface AppProps {
+  taches: Task[];
+}
+
+function App(props: AppProps) {
+  const [taches, setTasks] = useState<Task[]>(props.taches);
+  const [filtre, setFilter] = useState<string>("Toutes");
   const listeTaches = taches
     .filter(FILTRE_MAP[filtre])
     .map((task) => (
-      <Todo
+      <TodoItem
         id={task.id}
         nom={task.nom}
         description={task.description}
@@ -34,15 +47,20 @@ function App(props) {
     ));
 
   const filtrerListe = FILTRE_NOMS.map((nom) => (
-    <Filtres key={nom} nom={nom} isPressed={nom === filtre} setFilter={setFilter} />
+    <TodoFilters key={nom} nom={nom} isPressed={nom === filtre} setFilter={setFilter} />
   ));
 
   const motsTaches =
     listeTaches.length !== 1 ? "tâches restantes." : "tâche restante.";
   const texteHeader = `${listeTaches.length} ${motsTaches}`;
 
-  function ajtTache(nom, description, localisation, dateHeure) {
-    const nouvTache = {
+  function ajtTache(
+    nom: string,
+    description: string,
+    localisation: string,
+    dateHeure: string
+  ) {
+    const nouvTache: Task = {
       id: `todo-${nanoid()}`,
       nom,
       description,
@@ -53,12 +71,18 @@ function App(props) {
     setTasks([...taches, nouvTache]);
   }
 
-  function suppTache(id) {
+  function suppTache(id: string) {
     const tachesRestantes = taches.filter((task) => id !== task.id);
     setTasks(tachesRestantes);
   }
 
-  function modifTache(id, nouvNom, nouvDesc, nouvLoca, nouvDh) {
+  function modifTache(
+    id: string,
+    nouvNom: string,
+    nouvDesc: string,
+    nouvLoca: string,
+    nouvDh: string
+  ) {
     const modifListeTache = taches.map((task) => {
       if (id === task.id) {
         return {
@@ -74,7 +98,7 @@ function App(props) {
     setTasks(modifListeTache);
   }
 
-  function majTacheCompletee(id) {
+  function majTacheCompletee(id: string) {
     const majTaches = taches.map((task) => {
       if (id === task.id) {
         return { ...task, completed: !task.completed };
@@ -90,12 +114,12 @@ function App(props) {
     <div className="todoapp stack-large">
       <h1>&#128507;&bull; FujiTask</h1>
       <div className="sepp" />
-      <Formulaire ajtTache={ajtTache} />
+      <TodoForm ajtTache={ajtTache} />
       <div className="filters btn-group stack-exception">
         {filtrerListe}
       </div>
       <div className="sepp" />
-      <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
+      <h2 id="list-heading" tabIndex={-1} ref={listHeadingRef}>
         {texteHeader}
       </h2>
       <ul
