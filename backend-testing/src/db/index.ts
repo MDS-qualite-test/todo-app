@@ -5,7 +5,7 @@ let db: Database<sqlite3.Database, sqlite3.Statement>;
 
 export async function initDb() {
     db = await open({
-        filename: './data/database.sqlite',
+        filename: './tasks.db',
         driver: sqlite3.Database
     });
 
