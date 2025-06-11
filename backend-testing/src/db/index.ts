@@ -5,13 +5,13 @@ let db: Database<sqlite3.Database, sqlite3.Statement>;
 
 export async function initDb() {
     db = await open({
-        filename: './tasks.db',
+        filename: './todo.db',
         driver: sqlite3.Database
     });
 
     // Exemple : création de la table tasks si nécessaire
     await db.exec(`
-    CREATE TABLE IF NOT EXISTS tasks (
+    CREATE TABLE IF NOT EXISTS todo (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
       completed BOOLEAN NOT NULL DEFAULT 0
