@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', async (_req, res) => {
   try {
     const tasks = await TaskModel.findAll();
-    res.json(tas);
+    res.json(tasks);
   } catch (error) {
     console.error('Error fetching tasks:', error);
     res.status(500).json({ error: 'Failed to fetch tasks' });
