@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { initDb } from './db/index';
-import tasksRouter from './routes/tasks';
+import todosRouter from './routes/todos';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,8 +26,8 @@ app.post('/api/users', (req, res) => {
   res.status(201).json({ id: Date.now(), name, email });
 });
 
-// Mount the tasks router
-app.use('/api/tasks', tasksRouter);
+// Mount the todos router
+app.use('/api/todos', todosRouter);
 
 // Only start the server if this file is run directly
 if (require.main === module) {
