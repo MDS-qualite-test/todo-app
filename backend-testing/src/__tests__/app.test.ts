@@ -1,17 +1,20 @@
+// src/__tests__/app.test.ts
 import request from "supertest";
 import app from "../app";
-import * as TodoModel from "../model/todoModel";
+import * as TaskModel from "../model/taskModel";
 
-// Mock the TodoModel to avoid actual database operations during tests
-jest.mock("../model/todoModel");
+// Mock the TaskModel to avoid actual database operations during tests
+jest.mock("../model/taskModel");
 
 describe("API Integration Tests", () => {
+  // Reset mocks before each test
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
   test("GET /api/hello should return correct message", async () => {
     const response = await request(app).get("/api/hello");
+
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ message: "Hello, World!" });
   });
@@ -36,6 +39,7 @@ describe("API Integration Tests", () => {
   test("POST /api/users should return 400 with invalid data", async () => {
     const userData = {
       name: "John Doe",
+      // email is missing
     };
 
     const response = await request(app)
@@ -47,110 +51,119 @@ describe("API Integration Tests", () => {
     expect(response.body).toHaveProperty("error");
   });
 
-  // Todos API Tests
-  describe("Todos API", () => {
-    test("GET /api/todos should return all todos", async () => {
-      const mockTodos = [
-        { id: 1, title: "Todo 1", completed: false },
-        { id: 2, title: "Todo 2", completed: true },
+  // Task API Tests
+  describe("Tasks API", () => {
+    test("GET /api/tasks should return all tasks", async () => {
+      const mockTasks = [
+        { id: 1, title: "Task 1", completed: false },
+        { id: 2, title: "Task 2", completed: true },
       ];
 
-      (TodoModel.findAll as jest.Mock).mockResolvedValue(mockTodos);
+      // Mock the findAll method to return our test data
+      (TaskModel.findAll as jest.Mock).mockResolvedValue(mockTasks);
 
-      const response = await request(app).get("/api/todos");
-
-      expect(response.status).toBe(200);
-      expect(response.body).toEqual(mockTodos);
-      expect(TodoModel.findAll).toHaveBeenCalledTimes(1);
-    });
-
-    test("GET /api/todos/:id should return a single todo", async () => {
-      const mockTodo = { id: 1, title: "Todo 1", completed: false };
-
-      (TodoModel.findById as jest.Mock).mockResolvedValue(mockTodo);
-
-      const response = await request(app).get("/api/todos/1");
+      const response = await request(app).get("/api/tasks");
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(mockTodo);
-      expect(TodoModel.findById).toHaveBeenCalledWith(1);
+      expect(response.body).toEqual(mockTasks);
+      expect(TaskModel.findAll).toHaveBeenCalledTimes(1);
     });
 
-    test("GET /api/todos/:id should return 404 for non-existent todo", async () => {
-      (TodoModel.findById as jest.Mock).mockResolvedValue(undefined);
+    test("GET /api/tasks/:id should return a single task", async () => {
+      const mockTask = { id: 1, title: "Task 1", completed: false };
 
-      const response = await request(app).get("/api/todos/999");
+      // Mock the findById method to return our test data
+      (TaskModel.findById as jest.Mock).mockResolvedValue(mockTask);
+
+      const response = await request(app).get("/api/tasks/1");
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(mockTask);
+      expect(TaskModel.findById).toHaveBeenCalledWith(1);
+    });
+
+    test("GET /api/tasks/:id should return 404 for non-existent task", async () => {
+      // Mock the findById method to return undefined (task not found)
+      (TaskModel.findById as jest.Mock).mockResolvedValue(undefined);
+
+      const response = await request(app).get("/api/tasks/999");
 
       expect(response.status).toBe(404);
       expect(response.body).toHaveProperty("error");
-      expect(TodoModel.findById).toHaveBeenCalledWith(999);
+      expect(TaskModel.findById).toHaveBeenCalledWith(999);
     });
 
-    test("POST /api/todos should create a new todo", async () => {
-      const newTodo = { title: "New Todo", completed: false };
-      const todoId = 1;
+    test("POST /api/tasks should create a new task", async () => {
+      const newTask = { title: "New Task", completed: false };
+      const taskId = 1;
 
-      (TodoModel.create as jest.Mock).mockResolvedValue(todoId);
+      // Mock the create method to return an ID
+      (TaskModel.create as jest.Mock).mockResolvedValue(taskId);
 
       const response = await request(app)
-        .post("/api/todos")
-        .send(newTodo)
+        .post("/api/tasks")
+        .send(newTask)
         .set("Content-Type", "application/json");
 
       expect(response.status).toBe(201);
-      expect(response.body).toEqual({ id: todoId, ...newTodo });
-      expect(TodoModel.create).toHaveBeenCalledWith(newTodo);
+      expect(response.body).toEqual({ id: taskId, ...newTask });
+      expect(TaskModel.create).toHaveBeenCalledWith(newTask);
     });
 
-    test("POST /api/todos should return 400 with invalid data", async () => {
-      const invalidTodo = { completed: true };
+    test("POST /api/tasks should return 400 with invalid data", async () => {
+      const invalidTask = { completed: true }; // Missing title
 
       const response = await request(app)
-        .post("/api/todos")
-        .send(invalidTodo)
+        .post("/api/tasks")
+        .send(invalidTask)
         .set("Content-Type", "application/json");
 
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty("error");
-      expect(TodoModel.create).not.toHaveBeenCalled();
+      expect(TaskModel.create).not.toHaveBeenCalled();
     });
 
-    test("PUT /api/todos/:id should update a todo", async () => {
-      const todoId = 1;
-      const existingTodo = { id: todoId, title: "Old Title", completed: false };
+    test("PUT /api/tasks/:id should update a task", async () => {
+      const taskId = 1;
+      const existingTask = { id: taskId, title: "Old Title", completed: false };
       const updateData = { title: "Updated Title", completed: true };
-      const updatedTodo = { ...existingTodo, ...updateData };
+      const updatedTask = { ...existingTask, ...updateData };
 
-      (TodoModel.findById as jest.Mock)
-        .mockResolvedValueOnce(existingTodo)
-        .mockResolvedValueOnce(updatedTodo);
+      // Mock the findById method to return our test data
+      (TaskModel.findById as jest.Mock)
+        .mockResolvedValueOnce(existingTask) // First call (check if task exists)
+        .mockResolvedValueOnce(updatedTask); // Second call (get updated task)
 
-      (TodoModel.update as jest.Mock).mockResolvedValue(undefined);
+      // Mock the update method
+      (TaskModel.update as jest.Mock).mockResolvedValue(undefined);
 
       const response = await request(app)
-        .put(`/api/todos/${todoId}`)
+        .put(`/api/tasks/${taskId}`)
         .send(updateData)
         .set("Content-Type", "application/json");
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(updatedTodo);
-      expect(TodoModel.findById).toHaveBeenCalledWith(todoId);
-      expect(TodoModel.update).toHaveBeenCalledWith(todoId, updateData);
+      expect(response.body).toEqual(updatedTask);
+      expect(TaskModel.findById).toHaveBeenCalledWith(taskId);
+      expect(TaskModel.update).toHaveBeenCalledWith(taskId, updateData);
     });
 
-    test("DELETE /api/todos/:id should delete a todo", async () => {
-      const todoId = 1;
-      const existingTodo = { id: todoId, title: "Todo to Delete", completed: false };
+    test("DELETE /api/tasks/:id should delete a task", async () => {
+      const taskId = 1;
+      const existingTask = { id: taskId, title: "Task to Delete", completed: false };
 
-      (TodoModel.findById as jest.Mock).mockResolvedValue(existingTodo);
-      (TodoModel.remove as jest.Mock).mockResolvedValue(undefined);
+      // Mock the findById method to return our test data
+      (TaskModel.findById as jest.Mock).mockResolvedValue(existingTask);
 
-      const response = await request(app).delete(`/api/todos/${todoId}`);
+      // Mock the remove method
+      (TaskModel.remove as jest.Mock).mockResolvedValue(undefined);
+
+      const response = await request(app).delete(`/api/tasks/${taskId}`);
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("message");
-      expect(TodoModel.findById).toHaveBeenCalledWith(todoId);
-      expect(TodoModel.remove).toHaveBeenCalledWith(todoId);
+      expect(TaskModel.findById).toHaveBeenCalledWith(taskId);
+      expect(TaskModel.remove).toHaveBeenCalledWith(taskId);
     });
   });
 });
