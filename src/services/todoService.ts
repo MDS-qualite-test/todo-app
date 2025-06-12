@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
+import type { Todo } from "../../backend-testing/src/model/todoModel";
 
-const API_URL = 'http://localhost:3000/api/todos';
+const API_URL = "http://localhost:3000/api/todos";
 
 export const fetchTodos = async () => {
   const response = await axios.get(API_URL);
@@ -12,7 +13,7 @@ export const addTodo = async (todo: { title: string }) => {
   return response.data;
 };
 
-export const updateTodo = async (id: string, updates: any) => {
+export const updateTodo = async (id: string, updates: Partial<Todo>) => {
   const response = await axios.put(`${API_URL}/${id}`, updates);
   return response.data;
 };

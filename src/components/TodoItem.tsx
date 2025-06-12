@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import config from '../config.json';
+import config from "../config.json";
 
 interface Suggestion {
   place_name: string;
-  [key: string]: any;
+  [key: string]: string;
 }
 
 interface TodoItemProps {
@@ -15,7 +15,13 @@ interface TodoItemProps {
   completed: boolean;
   majTacheCompletee: (id: string) => void;
   suppTache: (id: string) => void;
-  modifTache: (id: string, nouvNom: string, nouvDesc: string, nouvLoca: string, nouvDh: string) => void;
+  modifTache: (
+    id: string,
+    nouvNom: string,
+    nouvDesc: string,
+    nouvLoca: string,
+    nouvDh: string
+  ) => void;
 }
 
 function usePrevious<T>(value: T): T | undefined {
@@ -32,7 +38,9 @@ export default function Todo(props: TodoItemProps) {
   const [nouvDesc, setNouvDesc] = useState(props.description);
   const [nouvLoca, setNouvLoca] = useState(props.localisation);
   const [nouvDh, setNouvDh] = useState(props.dateHeure);
-  const [selectedOption, setSelectedOption] = useState("Modifier le nom de la tâche");
+  const [selectedOption, setSelectedOption] = useState(
+    "Modifier le nom de la tâche"
+  );
   const editFieldInputRef = useRef<HTMLInputElement>(null);
   const editFieldTextareaRef = useRef<HTMLTextAreaElement>(null);
   const editButtonRef = useRef<HTMLButtonElement>(null);
@@ -89,131 +97,174 @@ export default function Todo(props: TodoItemProps) {
   function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedOption(e.target.value);
   }
-  
+
   const modifTemplate = (
-      <form className="stack-small" onSubmit={handleSubmit}>
-          <div className="form-group">
-              <select name="modifs" id="modif-select" onChange={handleSelectChange} value={selectedOption}>
-                  <option value="Modifier le nom de la tâche">&#9999;&#65039; &#x7C; Modifier le nom de la tâche</option>
-                  <option value="Modifier la description">&#128203; &#x7C; Modifier la description de la tâche</option>
-                  <option value="Modifier la localisation">&#128204; &#x7C; Modifier la localisation de la tâche</option>
-                  <option value="Modifier la date/l'heure">&#128197; &#x7C; Modifier la date/l'heure de la tâche</option>
-              </select>
-              {selectedOption === "Modifier le nom de la tâche" && (
-                  <div>
-                      <input 
-                          id={props.id} 
-                          className="todo-text" 
-                          type="text" 
-                          value={nouvNom} 
-                          onChange={handleChangeNom} 
-                          ref={editFieldInputRef}
-                          placeholder="Nouveau nom"
-                      />
-                  </div>
-              )}
-              {selectedOption === "Modifier la description" && (
-                  <div>
-                      <textarea
-                          id={props.id} 
-                          className="todo-text" 
-                          value={nouvDesc} 
-                          onChange={handleChangeDesc} 
-                          ref={editFieldTextareaRef}
-                          placeholder="Nouvelle description"
-                          maxLength={420}
-                          rows={1}
-                          style={{
-                              resize: 'vertical',
-                          }}
-                      />
-                  </div>
-              )}
-              {selectedOption === "Modifier la localisation" && (
-                  <div>
-                      <input 
-                          id={props.id} 
-                          className="todo-text" 
-                          type="text" 
-                          value={nouvLoca} 
-                          onChange={handleChangeLoca} 
-                          ref={editFieldInputRef} 
-                          placeholder="Nouvelle localisation"
-                      />
-                      {suggestions.length > 0 && (
-                          <ul className="suggestions-list">
-                              {suggestions.map((suggestion, index) => (
-                                  <li
-                                      key={index}
-                                      onClick={() => handleSuggestionClick(suggestion)}
-                                  >
-                                      {suggestion.place_name}
-                                  </li>
-                              ))}
-                          </ul>
-                      )}
-                  </div>
-              )}
-              {selectedOption === "Modifier la date/l'heure" && (
-                  <div>
-                      <input 
-                          id={props.id} 
-                          className="todo-text" 
-                          type="text" 
-                          value={nouvDh}
-                          onChange={handleChangeDh} 
-                          ref={editFieldInputRef}
-                          placeholder="Nouvelle date/heure"
-                          pattern="\d{2}/\d{2}/\d{4}, \d{2}:\d{2}"
-                      />
-                  </div>
-              )}
+    <form className="stack-small" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <select
+          name="modifs"
+          id="modif-select"
+          onChange={handleSelectChange}
+          value={selectedOption}
+        >
+          <option value="Modifier le nom de la tâche">
+            &#9999;&#65039; &#x7C; Modifier le nom de la tâche
+          </option>
+          <option value="Modifier la description">
+            &#128203; &#x7C; Modifier la description de la tâche
+          </option>
+          <option value="Modifier la localisation">
+            &#128204; &#x7C; Modifier la localisation de la tâche
+          </option>
+          <option value="Modifier la date/l'heure">
+            &#128197; &#x7C; Modifier la date/l&apos;heure de la tâche
+          </option>
+        </select>
+        {selectedOption === "Modifier le nom de la tâche" && (
+          <div>
+            <input
+              id={props.id}
+              className="todo-text"
+              type="text"
+              value={nouvNom}
+              onChange={handleChangeNom}
+              ref={editFieldInputRef}
+              placeholder="Nouveau nom"
+            />
           </div>
-          <div className="sepp" />
-          <div className="btn-group">
-              <button type="button" className="btn todo-cancel" onClick={() => setModif(false)}>&#128281; Annuler</button>
-              <button type="submit" className="btn btn__primary todo-edit">&#128190; Sauvegarder</button>
+        )}
+        {selectedOption === "Modifier la description" && (
+          <div>
+            <textarea
+              id={props.id}
+              className="todo-text"
+              value={nouvDesc}
+              onChange={handleChangeDesc}
+              ref={editFieldTextareaRef}
+              placeholder="Nouvelle description"
+              maxLength={420}
+              rows={1}
+              style={{
+                resize: "vertical",
+              }}
+            />
           </div>
-      </form>
+        )}
+        {selectedOption === "Modifier la localisation" && (
+          <div>
+            <input
+              id={props.id}
+              className="todo-text"
+              type="text"
+              value={nouvLoca}
+              onChange={handleChangeLoca}
+              ref={editFieldInputRef}
+              placeholder="Nouvelle localisation"
+            />
+            {suggestions.length > 0 && (
+              <ul className="suggestions-list">
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    {suggestion.place_name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+        {selectedOption === "Modifier la date/l'heure" && (
+          <div>
+            <input
+              id={props.id}
+              className="todo-text"
+              type="text"
+              value={nouvDh}
+              onChange={handleChangeDh}
+              ref={editFieldInputRef}
+              placeholder="Nouvelle date/heure"
+              pattern="\d{2}/\d{2}/\d{4}, \d{2}:\d{2}"
+            />
+          </div>
+        )}
+      </div>
+      <div className="sepp" />
+      <div className="btn-group">
+        <button
+          type="button"
+          className="btn todo-cancel"
+          onClick={() => setModif(false)}
+        >
+          &#128281; Annuler
+        </button>
+        <button type="submit" className="btn btn__primary todo-edit">
+          &#128190; Sauvegarder
+        </button>
+      </div>
+    </form>
   );
 
   const voirTemplate = (
-      <div className="stack-small">
-          <div className="c-cb">
-              <input id={props.id} type="checkbox" defaultChecked={props.completed} onChange={() => props.majTacheCompletee(props.id)} />
-              <label className="todo-label" htmlFor={props.id}>
-                  <div><b>&nbsp;{props.nom}</b></div>
-                  <div>&#128203; {props.description}</div>
-                  <div>&#128204; {props.localisation}</div>
-                  <div>&#128197; {props.dateHeure}</div>
-              </label>
+    <div className="stack-small">
+      <div className="c-cb">
+        <input
+          id={props.id}
+          type="checkbox"
+          defaultChecked={props.completed}
+          onChange={() => props.majTacheCompletee(props.id)}
+        />
+        <label className="todo-label" htmlFor={props.id}>
+          <div>
+            <b>&nbsp;{props.nom}</b>
           </div>
-          <div className="sepp" />
-          <div className="btn-group">
-              <button type="button" className="btn" onClick={() => setModif(true)} ref={editButtonRef}>&#128221; Modifier</button>
-              <button type="button" className="btn btn__danger" onClick={handleDeleteClick}>&#128465;&#65039; Supprimer</button>
-          </div>
+          <div>&#128203; {props.description}</div>
+          <div>&#128204; {props.localisation}</div>
+          <div>&#128197; {props.dateHeure}</div>
+        </label>
       </div>
+      <div className="sepp" />
+      <div className="btn-group">
+        <button
+          type="button"
+          className="btn"
+          onClick={() => setModif(true)}
+          ref={editButtonRef}
+        >
+          &#128221; Modifier
+        </button>
+        <button
+          type="button"
+          className="btn btn__danger"
+          onClick={handleDeleteClick}
+        >
+          &#128465;&#65039; Supprimer
+        </button>
+      </div>
+    </div>
   );
 
   useEffect(() => {
-      if (!aEteModif && estModif) {
-          if (selectedOption === "Modifier la description") {
-              editFieldTextareaRef.current?.focus();
-          } else {
-              editFieldInputRef.current?.focus();
-          }
-      } else if (aEteModif && !estModif) {
-          editButtonRef.current?.focus();
+    if (!aEteModif && estModif) {
+      if (selectedOption === "Modifier la description") {
+        editFieldTextareaRef.current?.focus();
+      } else {
+        editFieldInputRef.current?.focus();
       }
+    } else if (aEteModif && !estModif) {
+      editButtonRef.current?.focus();
+    }
   }, [aEteModif, estModif, selectedOption]);
 
   function handleDeleteClick() {
-      const isConfirmed = window.confirm("Êtes-vous sûr de vouloir supprimer cette tâche ?");
-      if (isConfirmed) {
-          props.suppTache(props.id);
-      }
+    const isConfirmed = window.confirm(
+      "Êtes-vous sûr de vouloir supprimer cette tâche ?"
+    );
+    if (isConfirmed) {
+      props.suppTache(props.id);
+    }
   }
-  
+
   return <li className="todo">{estModif ? modifTemplate : voirTemplate}</li>;
 }
